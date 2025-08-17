@@ -125,6 +125,10 @@ class MyClient(discord.Client):
         if self.ensure_current_channel(message.channel, message.guild):
             qsend('messagedelete', message.id)
 
+    async def on_bulk_message_delete(self, messages: list[discord.Message]):
+        for m in messages:
+            await self.on_message_delete(m)
+
     async def get_last_messages(self, before: discord.abc.Snowflake | datetime | int | None = None, limit=30):
         ch: discord.TextChannel | discord.DMChannel = self.get_channel(self.current_channel.id) # pyright: ignore[reportAssignmentType]
         _before = before
