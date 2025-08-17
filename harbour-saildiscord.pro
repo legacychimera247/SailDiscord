@@ -24,11 +24,13 @@ DISTFILES += \
     qml/components/Asset.qml \
     qml/components/AttachmentsPreview.qml \
     qml/components/ChannelItem.qml \
+    qml/components/FadeableFlickable.qml \
     qml/components/GeneralAttachmentView.qml \
     qml/components/ListImage.qml \
     qml/components/MessageItem.qml \
     qml/components/MessageReference.qml \
     qml/components/PlaceholderImage.qml \
+    qml/components/PressEffect.qml \
     qml/components/ServerListItem.qml \
     qml/components/SettingsComboBox.qml \
     qml/components/Shared.qml \
