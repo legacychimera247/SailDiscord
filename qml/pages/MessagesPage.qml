@@ -31,36 +31,32 @@ Page {
         onTriggered: sendField.forceActiveFocus()
     }
 
-    function sendMessage() {
-        if (!isDemo) py.call2('send_message', sendField.text)
-        else msgModel.appendDemo(true, sendField.text)
-        sendField.text = previouslyEnteredText
-        previouslyEnteredText = ''
-        currentFieldAction = 0
-        if (appSettings.focusAfterSend) activeFocusTimer.start()
-    }
+    function doSend() {
+        switch (currentFieldAction) {
+        case 0:
+            if (isDemo) msgModel.appendDemo(true, sendField.text)
+            else py.call2('send_message', [sendField.text, attachments])
+            attachments = []
+            break
+        case 1:
+            if (!isDemo) py.call2('edit_message', [actionID, sendField.text])
 
-    function applyEdit() {
-        if (isDemo) return
-        py.call2('edit_message', [actionID, sendField.text])
-        var i = msgModel.findIndexById(actionID)
-        if (i >= 0) {
-            i = msgModel.get(i)
-            i.contents = sendField.text
-            i.formattedContents = shared.markdown(sendField.text, true)
-            i.flags.edit = true
+            var i = msgModel.findIndexById(actionID)
+            if (i >= 0) {
+                i = msgModel.get(i)
+                i.contents = sendField.text
+                i.formattedContents = shared.markdown(sendField.text, true)
+                i.flags.edit = true
+            }
+
+            break
+        case 2:
+            if (isDemo) msgModel.appendDemo(true, sendField.text)
+            else py.call2('reply_to', [actionID, sendField.text])
+            attachments = []
         }
 
-        sendField.text = previouslyEnteredText
-        previouslyEnteredText = ''
         actionID = '-1'
-        currentFieldAction = 0
-        if (appSettings.focusAfterSend) activeFocusTimer.start()
-    }
-
-    function applyReply() {
-        if (!isDemo) py.call2('reply_to', [actionID, sendField.text])
-        else msgModel.appendDemo(true, sendField.text)
         sendField.text = previouslyEnteredText
         previouslyEnteredText = ''
         currentFieldAction = 0
@@ -251,7 +247,10 @@ Page {
                                 actionID = messageId
                                 currentFieldAction = 1
                             }
-                            onDeleteRequested: remorseAction(qsTr("Message deleted"), function() { opacity = 0; py.call2('delete_message', messageId) })
+                            onDeleteRequested: remorseAction(qsTr("Message deleted"), function() {
+                                opacity = 0
+                                py.call2('delete_message', messageId)
+                            })
                             onReplyRequested: {
                                 actionID = messageId
                                 currentFieldAction = 2
@@ -324,8 +323,8 @@ Page {
                         backgroundStyle: TextEditor.UnderlineBackground
                         horizontalAlignment: TextEdit.AlignLeft
 
-                        EnterKey.iconSource: appSettings.sendByEnter ? "image://theme/icon-m-enter-accept" : ""
-                        EnterKey.onClicked: if (appSettings.sendByEnter) sendMessage()
+                        EnterKey.iconSource: appSettings.sendByEnter ? sendButton.icon.source : ""
+                        EnterKey.onClicked: if (appSettings.sendByEnter) doSend()
                     }
 
                     IconButton {
@@ -337,11 +336,7 @@ Page {
                         anchors.bottom: parent.bottom
                         icon.source: "image://theme/icon-m-" + (currentFieldAction == 1 ? "accept" : "send")
 
-                        onClicked: switch (currentFieldAction) {
-                                   case 0: sendMessage();break
-                                   case 1: applyEdit();break
-                                   case 2: applyReply()
-                                   }
+                        onClicked: doSend()
                     }
                 }
             }
