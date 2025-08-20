@@ -46,6 +46,7 @@ class ImageType(Enum):
     EMOJI = auto()
     GROUP = auto()
     DECORATION = auto()
+    STICKER = auto()
 
 
 def cached_path(cache: Path | str, id, type: ImageType, format: str | None = None):

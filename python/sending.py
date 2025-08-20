@@ -10,6 +10,9 @@ from utils import *
 
 import discord
 
+
+SUPPORTED_STICKER_FORMATS = (discord.StickerFormatType.png,)
+
 # Servers
 
 def gen_server(g: discord.Guild, cacher: Cacher):
@@ -120,6 +123,10 @@ def convert_attachments(attachments: list[discord.Attachment]):
         res[0]['maxwidth'] = max((a.width or -1) if (a.content_type or '').startswith('image') else -1 for a in attachments)
     return res
 
+def generate_stickers(stickers: list[discord.StickerItem], cacher: Cacher):
+    return [cacher.easy(s.url, s.id, ImageType.STICKER) for s in stickers if s.format in SUPPORTED_STICKER_FORMATS]
+    
+
 def generate_extra_message(message: discord.Message | discord.MessageSnapshot, cacher: Cacher | None = None, emoji_size: Any | None = None, ref={}):
     t = message.type
     if t == discord.MessageType.new_member:
@@ -152,6 +159,7 @@ def generate_base_message(message: discord.Message | Any, cacher: Cacher, myself
             
             is_history, convert_attachments(message.attachments),
             message.jump_url,
+            generate_stickers(message.stickers, cacher),
         )
 
 # About

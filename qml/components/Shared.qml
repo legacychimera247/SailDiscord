@@ -121,9 +121,10 @@ QtObject {
         reference: {}, attachments: [],
         jumpUrl: '', highlightStarted: false,
         APIType: '', decoration: '',
+        stickers: [],
     })
     function constructMessageCallback(type, guildid, channelid, finalCallback) {
-        return function(_serverid, _channelid, _id, date, edited, editedAt, userinfo, history, attachments, jumpUrl) {
+        return function(_serverid, _channelid, _id, date, edited, editedAt, userinfo, history, attachments, jumpUrl, stickers) {
             if (guildid != undefined && channelid != undefined)
                 if ((_serverid != guildid) || (_channelid != channelid)) return
             var data = {
@@ -136,9 +137,10 @@ QtObject {
                 },
                 APIType: '', contents: '', formattedContents: '', reference: {}, highlightStarted: false,
                 jumpUrl: jumpUrl, decoration: userinfo.decoration,
+                stickers: stickers,
             }
 
-            var extraStart = 10
+            var extraStart = 11
             if (type === "" || type === "unknown") {
                 data.contents = arguments[extraStart]
                 data.formattedContents = markdown(arguments[extraStart+1], undefined, data.flags.edit)

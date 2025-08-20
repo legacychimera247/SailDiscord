@@ -168,18 +168,35 @@ ListItem {
                     }
                 }
 
-                Label {
-                    // LinkedLabel formats tags so they are appeared in plain text. While there are workarounds, they would break with markdown support
-                    wrapMode: Text.Wrap
-                    textFormat: appSettings.unformattedText ? Text.PlainText : Text.RichText
-                    font.pixelSize: Theme.fontSizeSmall
-                    text: _model.formattedContents
+                Column {
                     width: parent.width
-                                      // if sent, sentBehaviour is set to reversed or right-aligned, and aligning text is enabled
-                    horizontalAlignment: (_model.sent && appSettings.sentBehaviour !== "n" && appSettings.alignMessagesText) ? Text.AlignRight : undefined
-                    onLinkActivated: if (link == "sailcord://showEditDate" && _model.flags.edit) Notices.show(qsTranslate("MessageItem", "Edited %1", "Date and time of a message edit. Showed when clicked on edited text").arg(_model.date.toLocaleString()), Notice.Short, Notice.Center)
-                                     else LinkHandler.openOrCopyUrl(link)
-                    visible: _model.contents.length > 0 || _model.flags.edit
+                    spacing: Theme.paddingMedium
+
+                    Label {
+                        // LinkedLabel formats tags so they are appeared in plain text. While there are workarounds, they would break with markdown support
+                        wrapMode: Text.Wrap
+                        textFormat: appSettings.unformattedText ? Text.PlainText : Text.RichText
+                        font.pixelSize: Theme.fontSizeSmall
+                        text: _model.formattedContents
+                        width: parent.width
+                                          // if sent, sentBehaviour is set to reversed or right-aligned, and aligning text is enabled
+                        horizontalAlignment: (_model.sent && appSettings.sentBehaviour !== "n" && appSettings.alignMessagesText) ? Text.AlignRight : undefined
+                        onLinkActivated: if (link == "sailcord://showEditDate" && _model.flags.edit)
+                                             Notices.show(qsTranslate("MessageItem", "Edited %1", "Date and time of a message edit. Showed when clicked on edited text").arg(_model.date.toLocaleString()), Notice.Short, Notice.Center)
+                                         else LinkHandler.openOrCopyUrl(link)
+                        visible: _model.contents.length > 0 || _model.flags.edit
+                    }
+
+                    Repeater {
+                        model: _model.stickers
+                        delegate: Asset {
+                            anchors.right: (_model.sent && appSettings.sentBehaviour !== "n" && appSettings.alignMessagesText) ? parent.right : undefined
+                            info: model
+                            width: Theme.itemSizeHuge
+                            height: Theme.itemSizeHuge
+                        }
+                    }
+
                 }
 
                 Item { height: _firstSameAuthor ? Theme.paddingLarge : Theme.paddingSmall; width: 1; }
