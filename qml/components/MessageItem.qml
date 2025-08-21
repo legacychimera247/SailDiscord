@@ -33,6 +33,8 @@ ListItem {
     signal editRequested
     signal deleteRequested
     signal replyRequested
+    property bool channelLinkClickable: showRequestableOptions
+    signal channelOpenRequested(string id)
     property var jumpToReference: function() { return false } // Should return true if reference was found in messages model and false if not, takes message ID as the argument
 
     property bool highlightStarted
@@ -181,9 +183,16 @@ ListItem {
                         width: parent.width
                                           // if sent, sentBehaviour is set to reversed or right-aligned, and aligning text is enabled
                         horizontalAlignment: (_model.sent && appSettings.sentBehaviour !== "n" && appSettings.alignMessagesText) ? Text.AlignRight : undefined
-                        onLinkActivated: if (link == "sailcord://showEditDate" && _model.flags.edit)
-                                             Notices.show(qsTranslate("MessageItem", "Edited %1", "Date and time of a message edit. Showed when clicked on edited text").arg(_model.date.toLocaleString()), Notice.Short, Notice.Center)
-                                         else LinkHandler.openOrCopyUrl(link)
+                        onLinkActivated: shared.handleLink(link, function(type, other) {
+                            if (type == 'showEditDate' && _model.flags.edit)
+                                Notices.show(qsTranslate("MessageItem", "Edited %1", "Date and time of a message edit. Showed when clicked on edited text").arg(_model.date.toLocaleString()), Notice.Short, Notice.Center)
+                            else if (type == 'channel') {
+                                if (channelLinkClickable) channelOpenRequested(other)
+                                // dont open this in browser
+                            } else return false
+
+                            return true
+                        })
                         visible: _model.contents.length > 0 || _model.flags.edit
                     }
 

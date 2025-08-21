@@ -169,14 +169,16 @@ def generate_base_message(message: discord.Message | Any, cacher: Cacher, myself
 
 # About
 
-def send_user(user: discord.MemberProfile | discord.UserProfile):
+def send_user(user: discord.MemberProfile | discord.UserProfile, cacher: Cacher):
     status, is_on_mobile = 0, False # default
     if isinstance(user, discord.MemberProfile):
         if StatusMapping.has_value(user.status):
             status = StatusMapping(user.status).index
         is_on_mobile = user.is_on_mobile()
-    qsend(f'user{user.id}', user.bio or '', qml_date(user.created_at), status, is_on_mobile, #str(user.display_avatar), 
-    usernames(user), user.bot, user.system, user.is_friend(), hex_color(user.color))
+    qsend(f'user{user.id}',
+        user.display_name, cacher.easy(user.display_avatar, user.id, ImageType.USER), # these are already in other updates, but we do this to keep the info up-to-date (and also it is required for user mentions)
+        user.bio or '', qml_date(user.created_at), status, is_on_mobile, #str(user.display_avatar), 
+        usernames(user), user.bot, user.system, user.is_friend(), hex_color(user.color))
 
 def send_myself(client: discord.Client):
     user = client.user

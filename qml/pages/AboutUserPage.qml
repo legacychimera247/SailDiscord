@@ -156,7 +156,10 @@ AboutPageBase {
             pageStack.pop(undefined, PageStackAction.Immediate)
             LinkHandler.openOrCopyUrl(link)
         })
-        py.setHandler("user"+(isClient?"":userid), function(bio, date, status, onMobile, allNames) {
+        py.setHandler("user"+(isClient?"":userid), function(name, avatar, bio, date, status, onMobile, allNames) {
+            page.name = name
+            icon = avatar
+
             description = shared.markdown(bio, false, true)
             memberSince = new Date(date)
             _status = shared.constructStatus(status, onMobile)
@@ -178,5 +181,5 @@ AboutPageBase {
     }
     onLoadingChanged: load()
 
-    Component.onDestruction: py.setHandler("user"+(isClient?"":userid), function() {})
+    Component.onDestruction: py.setHandler("user"+(isClient ? '' : userid), function() {})
 }

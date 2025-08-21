@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../modules/js/showdown.min.js" as ShowDown
 import "../modules/js/twemoji.min.js" as Twemoji
+import '../modules/Opal/LinkHandler'
 
 QtObject {
     property bool active: Qt.application.state === Qt.ApplicationActive
@@ -74,6 +75,25 @@ QtObject {
     function emojify(text) {
         if (!appSettings.twemoji) return text
         return Twemoji.twemoji.parse(text, { base: Qt.resolvedUrl('../../images/twemoji/'), attributes: function () { return { width: '%1'.arg(Theme.fontSizeMedium), height: '%1'.arg(Theme.fontSizeMedium) } } })
+    }
+
+    function handleLink(link, sailcordHandler) {
+        if (link.indexOf('sailcord://') == 0) {
+            var part = link.slice(11)
+            var slashIndex = part.indexOf('/')
+            var before = part.slice(0, slashIndex), after = part.slice(slashIndex + 1)
+            // e.g. "sailcord://test/123" -> before="test", after="123"
+
+            switch (before) {
+            case 'user':
+                pageStack.push("../pages/AboutUserPage.qml", {userid: after})
+                return
+            }
+
+            if (sailcordHandler && sailcordHandler(before, after))
+                return
+        }
+        LinkHandler.openOrCopyUrl(link)
     }
 
     // Notifications/errors

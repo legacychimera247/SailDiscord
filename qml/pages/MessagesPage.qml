@@ -28,6 +28,9 @@ Page {
     property var attachments: []
     property bool _loaded: false
 
+    signal channelOpenRequested(string id)
+
+
     Timer {
         id: activeFocusTimer
         interval: 100
@@ -272,6 +275,9 @@ Page {
                                 currentFieldAction = 2
                                 actionInfo = model.contents
                             }
+
+                            channelLinkClickable: !isDemo && !isDM && !isGroup
+                            onChannelOpenRequested: page.channelOpenRequested(id)
                         }
                     }
 

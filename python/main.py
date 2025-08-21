@@ -193,7 +193,7 @@ class MyClient(discord.Client):
             except: user = await self.fetch_user_profile(user_id)
         else: user = await self.fetch_user_profile(user_id)
 
-        send_user(user)
+        send_user(user, comm.cacher)
 
     def begin_disconnect(self):
         self.pending_close_task = self.loop.create_task(self.close())

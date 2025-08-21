@@ -104,7 +104,7 @@ def escape_mentions(content: str, message: discord.Message):
         result: discord.User | discord.Member | None = next(filter(lambda u: u.id == int(m[1]), message.mentions), None)
         if not result:
             return m[0]
-        return f'<span class="mention">@{result.display_name}</span>'
+        return f'<a class="mention" href="sailcord://user/{result.id}">@{result.display_name}</span>'
     def role_mention_replacer(m: re.Match):
         result: discord.Role | None = next(filter(lambda u: u.id == int(m[1]), message.role_mentions), None)
         if not result:
@@ -118,7 +118,7 @@ def escape_mentions(content: str, message: discord.Message):
         result: discord.abc.GuildChannel | discord.Thread | None = next(filter(lambda u: u.id == int(m[1]), message.channel_mentions), None)
         if not result:
             return m[0]
-        return f'<span class="mention">#{result.name}</span>'
+        return f'<a class="mention" href="sailcord://channel/{result.id}">#{result.name}</span>'
 
     content = USER_MENTION_RE.sub(user_mention_replacer, content)
     content = ROLE_MENTION_RE.sub(role_mention_replacer, content)
