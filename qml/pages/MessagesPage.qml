@@ -12,9 +12,12 @@ Page {
     property string channelid
     property string name
     property bool isDemo: false
+
+    // Here we should set some stuff for DMs/groups by default:
     property bool sendPermissions: true
-    property bool attachPermission
+    property bool attachPermission: true
     property bool managePermissions: false
+
     property bool isDM: false
     property bool isGroup: false
     property string userid: ''
