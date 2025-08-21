@@ -19,6 +19,10 @@ AnyChannel = Union[discord.abc.GuildChannel, discord.abc.PrivateChannel]
 dummy_qml_user_info = {"id": '-1', "sent": False, "name": '', "avatar": '', "bot": False, "system": False, "color": ''}
 CUSTOM_EMOJI_RE_ESCAPED = re.compile(f'\\\\?({discord.PartialEmoji._CUSTOM_EMOJI_RE.pattern})') # pyright: ignore[reportPrivateUsage]
 
+USER_MENTION_RE = re.compile(r'\\?' + r'<@([1-9][0-9]*)>')
+ROLE_MENTION_RE = re.compile(r'\\?' + r'<@&([1-9][0-9]*)>')
+CHANNEL_MENTION_RE = re.compile(r'\\?' + r'<#([1-9][0-9]*)>')
+
 class classproperty(property):
     def __get__(self, owner_self, owner_cls=None):
         return self.fget(owner_cls) # pyright:ignore[reportOptionalCall]
@@ -94,3 +98,34 @@ async def is_channel_unread(channel: discord.TextChannel | discord.DMChannel | d
 
 def show_error(name, info = '', other = None):
     qsend('error', name, str(info), other)
+
+def escape_mentions(content: str, message: discord.Message):
+    def user_mention_replacer(m: re.Match):
+        result: discord.User | discord.Member | None = next(filter(lambda u: u.id == int(m[1]), message.mentions), None)
+        if not result:
+            return m[0]
+        return f'<span class="mention">@{result.display_name}</span>'
+    def role_mention_replacer(m: re.Match):
+        result: discord.Role | None = next(filter(lambda u: u.id == int(m[1]), message.role_mentions), None)
+        if not result:
+            return m[0]
+
+        color = hex_color(result.color)
+        # hex color format is #RRGGBB (RR is the red in hex and so on)
+        # adding a cc in the end makes the opacity/alpha 0.8/204/0xCC
+        return '<span class="mention"' + (f' style="background-color:{color}cc;color:{color}"' if color else '') + f'>@{result}</span>'
+    def channel_mention_replacer(m: re.Match):
+        result: discord.abc.GuildChannel | discord.Thread | None = next(filter(lambda u: u.id == int(m[1]), message.channel_mentions), None)
+        if not result:
+            return m[0]
+        return f'<span class="mention">#{result.name}</span>'
+
+    content = USER_MENTION_RE.sub(user_mention_replacer, content)
+    content = ROLE_MENTION_RE.sub(role_mention_replacer, content)
+    content = CHANNEL_MENTION_RE.sub(channel_mention_replacer, content)
+
+    if message.mention_everyone:
+        content = content.replace('@everyone', '<span class="mention">@everyone</span>')
+        content = content.replace('@here', '<span class="mention">@here</span>')
+
+    return content

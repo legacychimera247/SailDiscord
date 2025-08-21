@@ -157,7 +157,7 @@ AboutPageBase {
             LinkHandler.openOrCopyUrl(link)
         })
         py.setHandler("user"+(isClient?"":userid), function(bio, date, status, onMobile, allNames) {
-            description = shared.markdown(bio, _develInfoSection.parent.children[3].linkColor)
+            description = shared.markdown(bio, false, true)
             memberSince = new Date(date)
             _status = shared.constructStatus(status, onMobile)
             busyIndicator.running = false

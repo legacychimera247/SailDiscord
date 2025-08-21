@@ -58,10 +58,14 @@ QtObject {
     }
 
     // Text formatting
-    function markdown(text, linkColor, edited) {
+    function markdown(text, edited, secondaryLinkColor) {
         var e = emojify(text)
-        return "<style>a:link{color:" + (linkColor ? linkColor : Theme.highlightColor) + ";}</style>"+
-                    showdown.makeHtml(((appSettings.twemoji && /^<img/.test(e)) ? '<span style="color:transparent">.</span>': '')
+        return '<style>'
+                    + 'a{color:' + (secondaryLinkColor ? Theme.secondaryColor : Theme.highlightColor) + ';}\n'
+                    // this is from python:
+                    + '.mention{background-color:' + Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity) + ';color:' + Theme.highlightColor + ';font-weight:bold;}'
+                + '</style>'
+                + showdown.makeHtml(((appSettings.twemoji && /^<img/.test(e)) ? '<span style="color:transparent">.</span>': '')
                                        +e
                                        +(edited ? ("<a href='sailcord://showEditDate' style='text-decoration:none;font-size:" + Theme.fontSizeExtraSmall + "px;color:"+ Theme.secondaryColor +";'>" + qsTr("(edited)") + "</a>") : "")
                                        )
@@ -143,7 +147,7 @@ QtObject {
             var extraStart = 11
             if (type === "" || type === "unknown") {
                 data.contents = arguments[extraStart]
-                data.formattedContents = markdown(arguments[extraStart+1], undefined, data.flags.edit)
+                data.formattedContents = markdown(arguments[extraStart+1], data.flags.edit)
                 data.reference = arguments[extraStart+2]
             }
             if (type === "unknown") data.APIType = arguments[extraStart+3]

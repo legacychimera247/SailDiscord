@@ -556,7 +556,7 @@ Page {
         function appendDemo(isyou, thecontents, additionalOptions) {
             additionalOptions = additionalOptions !== undefined ? additionalOptions : {}
             appendDemo2(shared.combineObjects(
-                            {sent: isyou, contents: thecontents, formattedContents: shared.markdown(thecontents, undefined, additionalOptions.flags ? additionalOptions.flags.edit : false), author: isyou ? "you" : "notyou", avatar: "https://cdn.discordapp.com/embed/avatars/"+(isyou ? "0" : "1")+".png"},
+                            {sent: isyou, contents: thecontents, formattedContents: shared.markdown(thecontents, !!additionalOptions.flags && additionalOptions.flags.edit), author: isyou ? "you" : "notyou", avatar: "https://cdn.discordapp.com/embed/avatars/"+(isyou ? "0" : "1")+".png"},
                             additionalOptions))
         }
 

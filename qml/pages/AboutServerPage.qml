@@ -134,7 +134,7 @@ AboutPageBase {
             _memberCount = memberCount
             _onlineCount = onlineCount
             _features = features
-            description = shared.markdown(desc, _develInfoSection.parent.children[3].linkColor)
+            description = shared.markdown(desc, false, true)
             busyIndicator.running = false
         })
     }
