@@ -169,11 +169,11 @@ ListItem {
                             // var args = shared.combineObjects(resolvedReference, {sameAuthorAsBefore: false, masterWidth: -1, masterDate: new Date(1)})
                             switch (resolvedType) {
                             case '':
-                                setSource("MessageItem.qml", {_model: resolvedReference})
+                                setSource("MessageItem.qml", {_model: resolvedReference, showRequestableOptions: false})
                                 break
                             case 'unknown':
                                 if (appSettings.defaultUnknownMessages)
-                                    setSource("MessageItem.qml", {_model: resolvedReference})
+                                    setSource("MessageItem.qml", {_model: resolvedReference, showRequestableOptions: false})
                                 else sourceComponent = systemItem
                                 break
                             default: sourceComponent = systemItem
