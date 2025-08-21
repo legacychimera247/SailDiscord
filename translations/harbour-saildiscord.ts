@@ -106,13 +106,13 @@
         <location filename="../qml/components/MessageReference.qml" line="140"/>
         <location filename="../qml/pages/AboutUserPage.qml" line="36"/>
         <location filename="../qml/pages/DMsView.qml" line="44"/>
-        <location filename="../qml/pages/MessagesPage.qml" line="532"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="534"/>
         <source>About</source>
         <comment>User</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/MessageItem.qml" line="238"/>
+        <location filename="../qml/components/MessageItem.qml" line="255"/>
         <source>About this member</source>
         <comment>User</comment>
         <translation type="unfinished"></translation>
@@ -305,17 +305,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/MessageItem.qml" line="249"/>
+        <location filename="../qml/components/MessageItem.qml" line="266"/>
         <source>Copy message ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/MessageItem.qml" line="244"/>
+        <location filename="../qml/components/MessageItem.qml" line="261"/>
         <source>Copy message link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/MessageItem.qml" line="254"/>
+        <location filename="../qml/components/MessageItem.qml" line="271"/>
         <source>Copy formatted contents</source>
         <translation type="unfinished"></translation>
     </message>
@@ -388,7 +388,7 @@
 <context>
     <name>MessageItem</name>
     <message>
-        <location filename="../qml/components/MessageItem.qml" line="180"/>
+        <location filename="../qml/components/MessageItem.qml" line="185"/>
         <source>Edited %1</source>
         <comment>Date and time of a message edit. Showed when clicked on edited text</comment>
         <translation type="unfinished"></translation>
@@ -425,47 +425,47 @@
 <context>
     <name>MessagesPage</name>
     <message>
-        <location filename="../qml/pages/MessagesPage.qml" line="140"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="141"/>
         <source>No messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MessagesPage.qml" line="141"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="142"/>
         <source>Say hi ;)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MessagesPage.qml" line="141"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="142"/>
         <source>Wait for someone to post something</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MessagesPage.qml" line="265"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="266"/>
         <source>Message deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MessagesPage.qml" line="309"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="310"/>
         <source>Editing message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MessagesPage.qml" line="426"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="427"/>
         <source>Remove spoiler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MessagesPage.qml" line="426"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="427"/>
         <source>Hide with spoiler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MessagesPage.qml" line="433"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="434"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MessagesPage.qml" line="490"/>
+        <location filename="../qml/pages/MessagesPage.qml" line="491"/>
         <source>Type something</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1145,32 +1145,32 @@
 <context>
     <name>status</name>
     <message>
-        <location filename="../qml/components/Shared.qml" line="215"/>
+        <location filename="../qml/components/Shared.qml" line="217"/>
         <source>Online</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/Shared.qml" line="216"/>
+        <location filename="../qml/components/Shared.qml" line="218"/>
         <source>Offline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/Shared.qml" line="217"/>
+        <location filename="../qml/components/Shared.qml" line="219"/>
         <source>Do Not Disturb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/Shared.qml" line="218"/>
+        <location filename="../qml/components/Shared.qml" line="220"/>
         <source>Invisible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/Shared.qml" line="219"/>
+        <location filename="../qml/components/Shared.qml" line="221"/>
         <source>Idle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/Shared.qml" line="222"/>
+        <location filename="../qml/components/Shared.qml" line="224"/>
         <source>(Phone)</source>
         <comment>Used with e.g. Online (Phone)</comment>
         <translation type="unfinished"></translation>
